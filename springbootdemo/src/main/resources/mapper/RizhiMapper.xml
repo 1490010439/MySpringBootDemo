@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tz.springbootdemo.mapper.RizhiMapper" >
+  <resultMap id="BaseResultMap" type="com.tz.springbootdemo.po.Rizhi" >
+    <id column="rizhiId" property="rizhiid" jdbcType="INTEGER" />
+    <result column="rizhiTextHead" property="rizhitexthead" jdbcType="VARCHAR" />
+    <result column="rizhiAuthor" property="rizhiauthor" jdbcType="VARCHAR" />
+    <result column="rizhiZang" property="rizhizang" jdbcType="VARCHAR" />
+    <result column="rizhiTime" property="rizhitime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.tz.springbootdemo.po.Rizhi" extends="BaseResultMap" >
+    <result column="rizhiText" property="rizhitext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    rizhiId, rizhiTextHead, rizhiAuthor, rizhiZang, rizhiTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    rizhiText
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.tz.springbootdemo.po.RizhiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rizhi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.tz.springbootdemo.po.RizhiExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from rizhi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rizhi
+    where rizhiId = #{rizhiid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rizhi
+    where rizhiId = #{rizhiid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.tz.springbootdemo.po.RizhiExample" >
+    delete from rizhi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.tz.springbootdemo.po.Rizhi" >
+    insert into rizhi (rizhiId, rizhiTextHead, rizhiAuthor,
+    rizhiZang, rizhiTime, rizhiText
+    )
+    values (#{rizhiid,jdbcType=INTEGER}, #{rizhitexthead,jdbcType=VARCHAR}, #{rizhiauthor,jdbcType=VARCHAR},
+    #{rizhizang,jdbcType=VARCHAR}, #{rizhitime,jdbcType=TIMESTAMP}, #{rizhitext,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.tz.springbootdemo.po.Rizhi" >
+    insert into rizhi
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rizhiid != null" >
+        rizhiId,
+      </if>
+      <if test="rizhitexthead != null" >
+        rizhiTextHead,
+      </if>
+      <if test="rizhiauthor != null" >
+        rizhiAuthor,
+      </if>
+      <if test="rizhizang != null" >
+        rizhiZang,
+      </if>
+      <if test="rizhitime != null" >
+        rizhiTime,
+      </if>
+      <if test="rizhitext != null" >
+        rizhiText,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rizhiid != null" >
+        #{rizhiid,jdbcType=INTEGER},
+      </if>
+      <if test="rizhitexthead != null" >
+        #{rizhitexthead,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhiauthor != null" >
+        #{rizhiauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhizang != null" >
+        #{rizhizang,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhitime != null" >
+        #{rizhitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rizhitext != null" >
+        #{rizhitext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.tz.springbootdemo.po.RizhiExample" resultType="java.lang.Integer" >
+    select count(*) from rizhi
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update rizhi
+    <set >
+      <if test="record.rizhiid != null" >
+        rizhiId = #{record.rizhiid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rizhitexthead != null" >
+        rizhiTextHead = #{record.rizhitexthead,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rizhiauthor != null" >
+        rizhiAuthor = #{record.rizhiauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rizhizang != null" >
+        rizhiZang = #{record.rizhizang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rizhitime != null" >
+        rizhiTime = #{record.rizhitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.rizhitext != null" >
+        rizhiText = #{record.rizhitext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update rizhi
+    set rizhiId = #{record.rizhiid,jdbcType=INTEGER},
+    rizhiTextHead = #{record.rizhitexthead,jdbcType=VARCHAR},
+    rizhiAuthor = #{record.rizhiauthor,jdbcType=VARCHAR},
+    rizhiZang = #{record.rizhizang,jdbcType=VARCHAR},
+    rizhiTime = #{record.rizhitime,jdbcType=TIMESTAMP},
+    rizhiText = #{record.rizhitext,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update rizhi
+    set rizhiId = #{record.rizhiid,jdbcType=INTEGER},
+    rizhiTextHead = #{record.rizhitexthead,jdbcType=VARCHAR},
+    rizhiAuthor = #{record.rizhiauthor,jdbcType=VARCHAR},
+    rizhiZang = #{record.rizhizang,jdbcType=VARCHAR},
+    rizhiTime = #{record.rizhitime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tz.springbootdemo.po.Rizhi" >
+    update rizhi
+    <set >
+      <if test="rizhitexthead != null" >
+        rizhiTextHead = #{rizhitexthead,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhiauthor != null" >
+        rizhiAuthor = #{rizhiauthor,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhizang != null" >
+        rizhiZang = #{rizhizang,jdbcType=VARCHAR},
+      </if>
+      <if test="rizhitime != null" >
+        rizhiTime = #{rizhitime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rizhitext != null" >
+        rizhiText = #{rizhitext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where rizhiId = #{rizhiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.tz.springbootdemo.po.Rizhi" >
+    update rizhi
+    set rizhiTextHead = #{rizhitexthead,jdbcType=VARCHAR},
+    rizhiAuthor = #{rizhiauthor,jdbcType=VARCHAR},
+    rizhiZang = #{rizhizang,jdbcType=VARCHAR},
+    rizhiTime = #{rizhitime,jdbcType=TIMESTAMP},
+    rizhiText = #{rizhitext,jdbcType=LONGVARCHAR}
+    where rizhiId = #{rizhiid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tz.springbootdemo.po.Rizhi" >
+    update rizhi
+    set rizhiTextHead = #{rizhitexthead,jdbcType=VARCHAR},
+    rizhiAuthor = #{rizhiauthor,jdbcType=VARCHAR},
+    rizhiZang = #{rizhizang,jdbcType=VARCHAR},
+    rizhiTime = #{rizhitime,jdbcType=TIMESTAMP}
+    where rizhiId = #{rizhiid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectRizhiList"   resultMap="ResultMapWithBLOBs" >
+    SELECT * FROM rizhi
+  </select>
+
+</mapper>
